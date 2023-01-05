@@ -30,5 +30,5 @@ spec:
         - name: KEYCLOAK_ADMIN_PASSWORD
           value: "@1004!"
         - name: KC_HOSTNAME_URL
-          value: "http://keycloak.file-share.test/"
+          value: "http://login.medbonates.com.br/"
         imagePullPolicy: IfNotPresent

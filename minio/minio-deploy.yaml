@@ -27,9 +27,9 @@ spec:
         - :9001
         env:
         - name: MINIO_BROWSER_REDIRECT_URL
-          value: http://console.file-share.test
+          value: http://drive.medbonates.com.br
         - name: MINIO_SERVER_URL
-          value: http://file-share.test
+          value: http://s3.medbonates.com.br
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - mountPath: /data

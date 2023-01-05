@@ -7,17 +7,17 @@ metadata:
  #   nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-    - host: file-share.test
+    - host: s3.medbonates.com.br
       http:
         paths:
-          - path: /minio(/|$)(.*)
+          - path: /
             pathType: Prefix
             backend:
               service:
                 name: minio-service
                 port:
                   name: http
-    - host: console.file-share.test
+    - host: drive.medbonates.com.br
       http:
         paths:
           - path: /
