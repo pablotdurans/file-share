@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-ingress
+  namespace: file-share
+  annotations:
+ #   nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: file-share.test
+      http:
+        paths:
+          - path: /minio(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: minio-service
+                port:
+                  name: http
+    - host: console.file-share.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio-service
+                port:
+                  name: console    

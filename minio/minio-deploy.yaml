@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio-deploy
+  namespace: file-share
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      volumes:
+      - name: minio-volume
+        persistentVolumeClaim:
+          claimName: minio-pvc
+      containers:
+      - name: minio
+        image: quay.io/minio/minio:RELEASE.2022-12-12T19-27-27Z
+        args:
+        - server
+        - /data
+        - --console-address
+        - :9001
+        env:
+        - name: MINIO_BROWSER_REDIRECT_URL
+          value: http://console.file-share.test
+        - name: MINIO_SERVER_URL
+          value: http://file-share.test
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /data
+          name: minio-volume
+      - name: mc
+        image: minio/mc:RELEASE.2022-12-13T00-23-28Z
+        command: ["/bin/sh"]
+        #args: ["-c", "while true; do sleep 60; done"]
+        #args: ["-c", "sleep 20 ; mc alias set minio http://localhost:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY ; while true; do sleep 60; done"]
+        args: ["-c", "while true; do sleep 60; done"]

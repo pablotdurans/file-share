@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak-deploy
+  namespace: file-share
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:20.0.2-0
+        args:
+        - start
+        - --db=postgres
+        - --features=token-exchange
+        - --db-url=jdbc:postgresql://postgres-service/keycloak
+        - --db-username=postgres
+        - --db-password=admin
+        - --http-enabled=true
+        env:
+        - name: KEYCLOAK_ADMIN
+          value: pabloadmin
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "@1004!"
+        - name: KC_HOSTNAME_URL
+          value: "http://keycloak.file-share.test/"
+        imagePullPolicy: IfNotPresent
